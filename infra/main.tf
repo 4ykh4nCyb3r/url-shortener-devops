@@ -17,6 +17,7 @@ locals {
     { port = 443, description = "HTTPS" },
     { port = 3000, description = "App port" },
     { port = 27017, description = "MongoDB port" },
+    { port = 8080, description = "Jenkins port" },
   ]
 }
 
@@ -48,30 +49,50 @@ resource "aws_security_group" "main" {
   }
 }
 
-# Use an existing Elastic IP
+# Use an existing Elastic IP for Jenkins
 data "aws_eip" "app_eip" {
-  public_ip = "13.62.35.141"  # replace with your actual EIP
+  public_ip = "13.51.231.149"  # replace with your actual EIP
 }
 
-# EC2 instance
-resource "aws_instance" "app" {
-  ami                    = "ami-003ce1abd1cc05286"
+# Jenkins EC2 instance (public, with Elastic IP)
+resource "aws_instance" "jenkins" {
+  ami                    = "ami-00037c0e7e82b1fd2"
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.main.id]
   key_name               = "aws-key"
+  associate_public_ip_address = true
 
   tags = {
-    Name = "url-shortener-app"
+    Name = "jenkins-server"
+    Role = "jenkins"
   }
 }
 
-# Associate the existing Elastic IP with the instance
-resource "aws_eip_association" "app_assoc" {
-  instance_id   = aws_instance.app.id
+# Associate the existing Elastic IP with Jenkins
+resource "aws_eip_association" "jenkins_assoc" {
+  instance_id   = aws_instance.jenkins.id
   allocation_id = data.aws_eip.app_eip.id
 }
 
-# Output the public IP
-output "instance_public_ip" {
+# Deployment EC2 instance (private only, no Elastic IP)
+resource "aws_instance" "deployment" {
+  ami                    = "ami-00037c0e7e82b1fd2"
+  instance_type          = var.instance_type
+  vpc_security_group_ids = [aws_security_group.main.id]
+  key_name               = "aws-key"
+  associate_public_ip_address = false   # stays private
+
+  tags = {
+    Name = "deployment-server"
+    Role = "deployment"
+  }
+}
+
+# Outputs
+output "jenkins_public_ip" {
   value = data.aws_eip.app_eip.public_ip
+}
+
+output "deployment_private_ip" {
+  value = aws_instance.deployment.private_ip
 }
