@@ -1,0 +1,66 @@
+---
+- name: Deploy URL Shortener App
+  hosts: ec2
+  become: true
+  vars:
+    app_directory: /home/ubuntu/url-shortener
+
+  tasks:
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+
+    - name: Install required packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install Docker Compose v2 plugin
+      apt:
+        name: docker-compose-plugin
+        state: present
+        update_cache: yes
+
+    - name: Create app directory
+      file:
+        path: "{{ app_directory }}"
+        state: directory
+        mode: 0755
+
+    - name: Copy docker-compose.yml to EC2
+      copy:
+        src: ../docker-compose.yml
+        dest: "{{ app_directory }}/docker-compose.yml"
+        mode: 0644
+
+    - name: Run docker compose up -d
+      command: docker compose up -d
+      args:
+        chdir: "{{ app_directory }}"
