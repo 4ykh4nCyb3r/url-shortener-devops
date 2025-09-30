@@ -14,7 +14,7 @@ pipeline {
 
         stage('Build Docker Image') {
             when {
-                changeset includes: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
+                changeset pattern: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
             }
 
             steps {
@@ -31,7 +31,7 @@ pipeline {
 
         stage('Push Docker Image') {
             when {
-                changeset includes: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
+                changeset pattern: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
             }
             steps {
                 script {
@@ -49,7 +49,7 @@ pipeline {
 
         stage('Deploy with Ansible') {
             when {
-                changeset includes: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
+                changeset pattern: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
             }
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ansible_ssh_key', keyFileVariable: 'SSH_KEY')]) {
