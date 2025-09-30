@@ -1,6 +1,6 @@
 ---
 - name: Deploy URL Shortener App
-  hosts: ec2
+  hosts: deployment
   become: true
   vars:
     app_directory: /home/ubuntu/url-shortener
