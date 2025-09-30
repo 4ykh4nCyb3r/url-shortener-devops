@@ -14,8 +14,9 @@ pipeline {
 
         stage('Build Docker Image') {
             when {
-                changeset "**/Dockerfile", "**/*.js", "**/*.json", "**/*.yml", "**/*.yaml"
+                changeset pattern: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
             }
+
             steps {
                 script {
                     // Get short commit hash for tagging
@@ -30,7 +31,7 @@ pipeline {
 
         stage('Push Docker Image') {
             when {
-                changeset "**/Dockerfile", "**/*.js", "**/*.json", "**/*.yml", "**/*.yaml"
+                changeset pattern: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
             }
             steps {
                 script {
@@ -48,12 +49,12 @@ pipeline {
 
         stage('Deploy with Ansible') {
             when {
-                changeset "**/Dockerfile", "**/*.js", "**/*.json", "**/*.yml", "**/*.yaml"
+                changeset pattern: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
             }
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ansible_ssh_key', keyFileVariable: 'SSH_KEY')]) {
                     sh '''
-                    cd ansible
+                    cd ansible-deployment
                     ansible-playbook ansible-playbook.yml --private-key=$SSH_KEY
                     '''
                 }
