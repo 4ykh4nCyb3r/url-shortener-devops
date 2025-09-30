@@ -13,10 +13,7 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            when {
-                changeset pattern: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
-            }
-
+          
             steps {
                 script {
                     // Get short commit hash for tagging
@@ -30,9 +27,6 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            when {
-                changeset pattern: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
-            }
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
@@ -48,9 +42,6 @@ pipeline {
         }
 
         stage('Deploy with Ansible') {
-            when {
-                changeset pattern: "**/Dockerfile,**/*.js,**/*.json,**/*.yml,**/*.yaml"
-            }
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ansible_ssh_key', keyFileVariable: 'SSH_KEY')]) {
                     sh '''
