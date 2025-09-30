@@ -78,7 +78,7 @@ resource "aws_instance" "deployment" {
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.main.id]
   key_name               = "aws-key"
-  associate_public_ip_address = false   # stays private
+  associate_public_ip_address = true   # stays private
 
   tags = {
     Name = "deployment-server"
@@ -93,4 +93,12 @@ output "jenkins_public_ip" {
 
 output "deployment_private_ip" {
   value = aws_instance.deployment.private_ip
+}
+
+output "deployment_public_ip" {
+  value = aws_instance.deployment.public_ip
+}
+
+output "deployment_message" {
+  value = "Deployment server running on ${aws_instance.deployment.public_ip} address, access the app on port 3000."
 }
