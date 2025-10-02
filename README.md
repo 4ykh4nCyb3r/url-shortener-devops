@@ -75,6 +75,7 @@ After Jenkins is installed and accessible, you need to perform some manual setup
   - Docker Pipeline
   - Docker Compose
 - **Configure a GitHub webhook** so that pushes to your repository automatically trigger the pipeline.
+- **Add Credentials** which will be used for pushing the image to DockerHub and by Ansible for provisioning deployment server.
 
 Once these steps are complete, Jenkins will be ready to build and deploy your application.
 
