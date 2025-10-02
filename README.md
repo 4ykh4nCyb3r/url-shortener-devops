@@ -51,6 +51,8 @@ This will create:
 
 **⚠️ Important: Please take note of your Deployment Server Public IP Address after Terraform finishes. You will need this IP later when accessing the application.**
 
+**⚠️ You should create SSH key pairs and allocate Elastic IP in AWS.**
+
 > ℹ️ **For more information and detailed instructions, please refer to the project documentation.**
 
 ### 3. Configure the Jenkins Server with Ansible
