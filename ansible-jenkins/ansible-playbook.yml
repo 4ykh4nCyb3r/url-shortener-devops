@@ -92,9 +92,14 @@
         name: jenkins
         state: started
         enabled: yes
+    - name: Add Jenkins user to Docker group
+      user:
+        name: jenkins
+        groups: docker
+        append: yes
 
     # -------------------------
-    # Optional: Print initial admin password
+    # Print initial admin password
     # -------------------------
     - name: Show Jenkins initial admin password
       command: cat /var/lib/jenkins/secrets/initialAdminPassword
