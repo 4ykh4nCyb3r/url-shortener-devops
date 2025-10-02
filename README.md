@@ -131,12 +131,13 @@ This will give you access to the running application.
 5. Application is live ✅
 
 ```mermaid
-Dev[Developer] -->|Push Code| GitHub
-GitHub -->|Webhook| Jenkins
-Jenkins -->|Build & Push| DockerHub
-Jenkins -->|Deploy| Ansible
-Ansible --> EC2[Deployment Server]
-EC2 -->|Serve App| User[Browser]
+flowchart TD
+    Dev[Developer] -->|Push Code| GitHub
+    GitHub -->|Webhook| Jenkins
+    Jenkins -->|Build & Push| DockerHub
+    Jenkins -->|Deploy| Ansible
+    Ansible --> EC2[Deployment Server]
+    EC2 -->|Serve App| User[Browser]
 ```
 
 ## 📈 Future Enhancements
