@@ -131,7 +131,7 @@ This will give you access to the running application.
 5. Application is live ✅
 
 ```mermaid
-graph TD
+flowchart TD
     Dev[Developer] -->|Push Code| GitHub
     GitHub -->|Webhook| Jenkins
     Jenkins -->|Build & Push| DockerHub
