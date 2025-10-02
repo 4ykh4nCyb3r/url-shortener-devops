@@ -86,12 +86,6 @@
         name: jenkins
         state: present
         update_cache: yes
-
-    - name: Ensure Jenkins service is running
-      service:
-        name: jenkins
-        state: started
-        enabled: yes
     
     - name: Add Jenkins user to Docker group
       user:
@@ -103,6 +97,12 @@
       service:
         name: jenkins
         state: restarted
+
+    - name: Ensure Jenkins service is running
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
 
     # -------------------------
     # Print initial admin password
