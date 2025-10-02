@@ -92,11 +92,17 @@
         name: jenkins
         state: started
         enabled: yes
+    
     - name: Add Jenkins user to Docker group
       user:
         name: jenkins
         groups: docker
         append: yes
+    
+    - name: Restart Jenkins to apply group changes
+      service:
+        name: jenkins
+        state: restarted
 
     # -------------------------
     # Print initial admin password
