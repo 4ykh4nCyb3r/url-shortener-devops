@@ -84,7 +84,7 @@
     - name: Install Jenkins
       apt:
         name: jenkins
-        state: presentte
+        state: present
         update_cache: yes
     
     - name: Add Jenkins user to Docker group

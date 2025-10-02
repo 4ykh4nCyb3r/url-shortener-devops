@@ -38,6 +38,11 @@ git clone https://github.com/4ykh4nCyb3r/url-shortener-devops.git
 cd url-shortener-devops
 ```
 ### 2. Provision Infrastructure with Terraform
+
+**Prerequisites**: Before running Terraform, make sure you have:
+- Created an SSH key pair in the AWS Console (EC2 → Key Pairs) and downloaded the private key (.pem) file. This will be used later to connect to your instances.
+- Allocated and associated an Elastic IP in the AWS Console (EC2 → Elastic IPs) so your Jenkins/Deployment server has a stable public address.
+
 ```bash
 cd infra
 terraform init
@@ -47,11 +52,13 @@ terraform apply
 This will create:
 - Jenkins and Deployment servers EC2 instances
 - Security groups
-- Elastic IP association (⚠️ remember to replace the placeholder Elastic IP in infra/main.tf with yours)
+- Elastic IP association **(⚠️ remember to replace the placeholder Elastic IP in infra/main.tf with yours)**
 
-**⚠️ Important: Please take note of your Deployment Server Public IP Address after Terraform finishes. You will need this IP later when accessing the application.**
+**Please take note of your:**
+1. Deployment Server Public and Private (VPC) IP Address. 
+2. Elastic IP address for Jenkins server.
 
-**⚠️ You should create SSH key pairs and allocate Elastic IP in AWS.**
+**⚠️ Important: Put Private IP address of Deployment server in ansible-deployment/inventory.ini file** 
 
 > ℹ️ **For more information and detailed instructions, please refer to the project documentation.**
 
