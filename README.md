@@ -4,7 +4,7 @@ This project demonstrates a complete DevOps pipeline for deploying a URL shorten
 
 It covers modern CI/CD practices, Infrastructure as Code, configuration management, and container orchestration.
 
-![Architecture Overview](docs/architecture.png)
+![Architecture Overview](docs/architecture.svg)
 
 ---
 
