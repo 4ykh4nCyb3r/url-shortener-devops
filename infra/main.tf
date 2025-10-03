@@ -49,7 +49,7 @@ resource "aws_security_group" "main" {
 
 # Use an existing Elastic IP for Jenkins
 data "aws_eip" "app_eip" {
-  public_ip = "13.51.231.149"  # replace with your actual EIP
+  public_ip = "$IP"  # replace with your actual EIP
 }
 
 # Jenkins EC2 instance (public, with Elastic IP)
